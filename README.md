@@ -124,7 +124,7 @@ wget http://localhost:8080
 
 ## New requirement, again to be added in the "Kubernetes Manifest assistant" text box:
 ```
-Instead of serving a static "Hello World" content, my webserver should now respond with a random number which is changed after each request.
+Instead of serving static content, my webserver should now respond with a random number that changes after each request.
 ```
 Answer from the PartyRock app:
 
