@@ -1,10 +1,10 @@
-# K8s-powered-by-GenAI
+# K8s powered by GenAI
 
 PartyRock app "Kubernetes Manifest Generator": https://partyrock.aws/u/fspiess/MnqyMNxWc/Kubernetes-Manifest-Generator
 
 ## Entry for text box "Kubernetes Requirements":
 ```
-I want to run a webserver that serves a web page with content "Hello World".
+I want to run a web server that serves a web page with content "Hello World".
 ```
 
 Manifest file output:
@@ -122,7 +122,7 @@ Actually, this command thould be ended with a " &" to make sure that it runs in 
 kubectl port-forward service/hello-world-service 8080:80 &
 ```
 
-Now, by performing a "wget" for the related service, you can download the index.html from the webserver:
+Now, by performing a "wget" for the related service, you can download the index.html from the web server:
 ```
 wget http://localhost:8080
 ```
@@ -130,7 +130,7 @@ wget http://localhost:8080
 
 ## New requirement, again to be added in the "Kubernetes Manifest assistant" text box:
 ```
-Instead of serving static content, my webserver should now respond with a random number that changes after each request.
+Instead of serving static content, my web server should now respond with a random number that changes after each request.
 ```
 Answer from the PartyRock app:
 
