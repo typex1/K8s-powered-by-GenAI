@@ -116,6 +116,12 @@ Result, to be posted into the Linux terminal:
 ```
 kubectl port-forward service/hello-world-service 8080:80
 ```
+Actually, this command thould be ended with a " &" to make sure that it runs in the background, and we get back our Linux terminal prompt:
+
+```
+kubectl port-forward service/hello-world-service 8080:80 &
+```
+
 Now, by performing a "wget" for the related service, you can download the index.html from the webserver:
 ```
 wget http://localhost:8080
