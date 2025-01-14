@@ -243,3 +243,75 @@ kubectl apply -f random-number-app.yaml
 Now, each time you access the service, you'll get a different random number. You can use the same methods we discussed earlier (NodePort, LoadBalancer, Ingress, or port-forwarding) to access this service from outside the cluster.
 
 Would you like me to explain any part of this setup in more detail?
+
+## Alternative approach, might also happen: creation of a single manifest:
+``` yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: random-number-web
+  labels:
+    app: random-number-web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: random-number-web
+  template:
+    metadata:
+      labels:
+        app: random-number-web
+    spec:
+      containers:
+      - name: random-number-container
+        image: python:3.9-slim
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          pip install Flask
+          cat <<EOF > /app.py
+          from flask import Flask
+          import random
+          app = Flask(__name__)
+          @app.route('/')
+          def hello():
+              return f'<h1>Random Number: {random.randint(1, 1000)}</h1>'
+          if __name__ == '__main__':
+              app.run(host='0.0.0.0')
+          EOF
+          python /app.py
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: random-number-service
+spec:
+  selector:
+    app: random-number-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+```
