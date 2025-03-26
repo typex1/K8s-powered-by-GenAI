@@ -4,6 +4,43 @@ PartyRock app "Kubernetes Manifest Generator": https://partyrock.aws/u/fspiess/M
 
 ## Entry for text box "Kubernetes Requirements":
 ```
+I want to run an nginx web server as a pod.
+```
+Manifest file output:
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 10
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 10
+```
 I want to run a web server that serves a web page with content "Hello World".
 ```
 
